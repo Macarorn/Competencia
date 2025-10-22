@@ -10,7 +10,8 @@ import LoginUser from "./pages/auth/LoginUser";
 import RegisterUser from "./pages/auth/RegisterUser";
 import DashboardUser from "./pages/aprendiz/DashboardPage";
 import NotFound from "./pages/NotFound";
-
+import { CoursesPage } from "./pages/aprendiz/CoursesPage";
+import { ChatPage } from "./pages/aprendiz/ChatPage";
 
 function App() {
   return (
@@ -30,7 +31,37 @@ function App() {
                 <AppLayout>
                   <DashboardUser />
                 </AppLayout>
-              </ ProtectedRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cursos"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <CoursesPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <ChatPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/progreso"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <ChatPage />
+                </AppLayout>
+              </ProtectedRoute>
             }
           />
 
