@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// App.tsx
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/route/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
+import AppLayout from "./layout/AppLayout";
+
+// Pages
+import LandingPageUser from "./pages/LandingPageUser";
+import NotFound from "./pages/NotFound";
+import { ChatPage } from "./pages/aprendiz/ChatPage";
+import { CoursesPage } from "./pages/aprendiz/CoursesPage";
+import DashboardUser from "./pages/aprendiz/DashboardPage";
+import LoginUser from "./pages/auth/LoginUser";
+import RegisterUser from "./pages/auth/RegisterUser";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <AuthProvider>
+        <Routes>
+          {/* Rutas Públicas */}
+          <Route path="/" element={<LandingPageUser />} />
+          <Route path="/login" element={<LoginUser />} />
+          <Route path="/register" element={<RegisterUser />} />
+
+          {/* Rutas Protegidas con Layout */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <DashboardUser />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cursos"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <CoursesPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/progreso"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <ChatPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;
