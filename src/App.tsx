@@ -9,6 +9,7 @@ import DashboardUser from "./pages/DashboardUser";
 import LandingPageUser from "./pages/LandingPageUser";
 import LoginUser from "./pages/LoginUser";
 import RegisterUser from "./pages/RegisterUser";
+import ChatIaUser from "./pages/ChatIaUser";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -33,6 +34,16 @@ function App() {
           element={
             isAuthenticated ? (
               <DashboardUser />
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            isAuthenticated ? (
+              <ChatIaUser />
             ) : (
               <Navigate to="/login" replace />
             )
