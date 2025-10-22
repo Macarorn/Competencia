@@ -24,22 +24,23 @@ export default function Header() {
 
           {/* Enlaces de Navegación - Centro */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link 
-              to="/cursos" 
+            <Link
+              to="/dashboard"
+              className="relative text-gray-300 hover:text-white transition-colors duration-300 group"
+            >
+              <span>Dashboard</span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link
+              to="/cursos"
               className="relative text-gray-300 hover:text-white transition-colors duration-300 group"
             >
               <span>Cursos</span>
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <Link 
-              to="/chat" 
-              className="relative text-gray-300 hover:text-white transition-colors duration-300 group"
-            >
-              <span>ChatIA</span>
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-            <Link 
-              to="/progreso" 
+
+            <Link
+              to="/progreso"
               className="relative text-gray-300 hover:text-white transition-colors duration-300 group"
             >
               <span>Mi Progreso</span>

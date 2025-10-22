@@ -1,18 +1,17 @@
 // App.tsx
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/route/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 import AppLayout from "./layout/AppLayout";
 
 // Pages
 import LandingPageUser from "./pages/LandingPageUser";
+import NotFound from "./pages/NotFound";
+import { ChatPage } from "./pages/aprendiz/ChatPage";
+import { CoursesPage } from "./pages/aprendiz/CoursesPage";
+import DashboardUser from "./pages/aprendiz/DashboardPage";
 import LoginUser from "./pages/auth/LoginUser";
 import RegisterUser from "./pages/auth/RegisterUser";
-import DashboardUser from "./pages/aprendiz/DashboardPage";
-import NotFound from "./pages/NotFound";
-import { CoursesPage } from "./pages/aprendiz/CoursesPage";
-import { ChatPage } from "./pages/aprendiz/ChatPage";
-import ChatIaUser from "./pages/ChatIaUser";
 
 function App() {
   return (
@@ -45,16 +44,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/chat"
-            element={
-              <ProtectedRoute>
-                <AppLayout>
-                  <ChatIaUser />
-                </AppLayout>
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="/progreso"
             element={
