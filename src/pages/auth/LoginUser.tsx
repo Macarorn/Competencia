@@ -1,11 +1,12 @@
+// pages/auth/LoginUser.tsx
 import { useState } from "react";
-import supabase from "../utils/supabase";
+import { useNavigate } from "react-router-dom";
+import supabase from "../../utils/supabase";
+import { useAuth } from "../../context/AuthContext";
 
-export default function LoginUser({
-  setIsAuthenticated,
-}: {
-  setIsAuthenticated: (value: boolean) => void;
-}) {
+export default function LoginUser() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,17 +14,25 @@ export default function LoginUser({
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
+      
       if (error) {
         setError(error.message);
-      } else {
+      } else if (data.user) {
         setError("");
-        setIsAuthenticated(true);
-        alert("Inicio de sesión exitoso");
-        window.location.href = "/dashboard";
+        
+        // Actualizar el contexto con los datos del usuario
+        const userData = {
+          name: data.user.user_metadata?.name || data.user.email?.split('@')[0] || "Usuario",
+          email: data.user.email || "",
+          image: data.user.user_metadata?.avatar_url,
+        };
+        
+        login(userData);
+        navigate("/dashboard");
       }
     } catch {
       setError("Error inesperado");

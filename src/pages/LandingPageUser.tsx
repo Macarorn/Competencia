@@ -9,7 +9,7 @@ const imgIcon2 =
 const imgIcon3 =
   "http://localhost:3845/assets/9d7ec5c8cddb4335b1e699d43242d616b6660be1.svg";
 
-export default function LandingPageUser() {
+export default function   () {
   return (
     <div
       className="bg-white relative w-full h-full"
