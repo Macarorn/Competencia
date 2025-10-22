@@ -1,73 +1,97 @@
-# React + TypeScript + Vite
+# 🏛️ Business Structure - EthicIA (versión refinada)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 👤 Usuario aprendiz
 
-Currently, two official plugins are available:
+**Objetivo principal:** Aprender el uso ético y responsable de la inteligencia artificial mediante una experiencia guiada por IA.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Interacciones esperadas
 
-## React Compiler
+- Registro e inicio de sesión.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Acceso libre a los cursos disponibles.
 
-## Expanding the ESLint configuration
+- Navegación por las lecciones de cualquier curso, en cualquier orden.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Uso de un chat con el agente IA como tutor personal.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Recibe retroalimentación textual automática basada en sus interacciones.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Visualiza un porcentaje de progreso general por cursos completados.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📘 Cursos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Definición:** Conjuntos temáticos que agrupan lecciones centradas en una dimensión específica del uso ético de la IA.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Secuencia:** No hay desbloqueo progresivo. Todos los cursos están disponibles desde el inicio.
+
+**Interacción:** Cada curso tiene un bloque de contenido teórico + lecciones aplicativas.
+
+---
+
+## 📂 Lecciones
+
+**Definición:** Unidades prácticas breves que aplican lo aprendido en los cursos.
+
+**Interacción:** El usuario responde dentro del chat (texto libre) y el sistema responde con retroalimentación.
+
+---
+
+## 🤖 Tutor IA (Chat + LLM + MCP + A2A)
+
+**Rol:** Asistente conversacional que guía al usuario, evalúa sus respuestas, y ofrece retroalimentación educativa.
+
+### Flujo de funcionamiento
+
+1. El usuario escribe texto libre en el chat.
+
+2. El LLM interpreta y responde según su avance (dato obtenido vía MCP desde Supabase).
+
+3. Los agentes A2A colaboran para:
+
+   - Evaluar el nivel de dependencia a la IA.
+
+   - Modificar el tipo de retroalimentación (más guiada o más libre), sin cambiar contenidos.
+
+   - Si el nivel de dependencia cambia, se actualiza en la base de datos del estudiante.
+
+**Historial de chat:**
+
+- No es visible para el usuario.
+
+- El contenido no se almacena para revisión posterior.
+
+---
+
+## 🎓 Administrador / Profesor
+
+- Visualiza el porcentaje de cursos completados por cada aprendiz.
+
+- Puede generar mensajes de intervención desde una interfaz en la web.
+
+- n8n toma ese mensaje y lo envía por correo a través de la API de Gmail.
+
+- El estudiante no puede responder al mensaje ni interactuar con el docente directamente.
+
+---
+
+## 📊 Visualización del progreso
+
+- El aprendiz puede ver un porcentaje general de cursos completados.
+
+- El docente ve ese mismo resumen para todos los usuarios registrados.
+
+---
+
+## ⚙️ Infraestructura técnica MVP
+
+- **Frontend:** React + Vite + Tailwind (desplegado en Vercel).
+
+- **Backend / Base de datos:** Supabase + PostgreSQL.
+
+- **IA & Automatización:**
+
+  - n8n como orquestador del flujo de datos entre el frontend, Supabase, el LLM y los agentes A2A.
+
+  - LLM vía API para respuestas educativas.
