@@ -12,6 +12,7 @@ import DashboardUser from "./pages/aprendiz/DashboardPage";
 import NotFound from "./pages/NotFound";
 import { CoursesPage } from "./pages/aprendiz/CoursesPage";
 import { ChatPage } from "./pages/aprendiz/ChatPage";
+import ChatIaUser from "./pages/ChatIaUser";
 
 function App() {
   return (
@@ -49,7 +50,7 @@ function App() {
             element={
               <ProtectedRoute>
                 <AppLayout>
-                  <ChatPage />
+                  <ChatIaUser />
                 </AppLayout>
               </ProtectedRoute>
             }
