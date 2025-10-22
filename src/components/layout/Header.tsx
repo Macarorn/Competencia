@@ -39,13 +39,13 @@ export default function Header() {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
 
-            <Link
+            {/* <Link
               to="/progreso"
               className="relative text-gray-300 hover:text-white transition-colors duration-300 group"
             >
               <span>Mi Progreso</span>
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-500 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
+            </Link> */}
           </nav>
 
           {/* Dropdown del Usuario - Lado Derecho */}

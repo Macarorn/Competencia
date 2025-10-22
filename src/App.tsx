@@ -12,6 +12,7 @@ import { CoursesPage } from "./pages/aprendiz/CoursesPage";
 import DashboardUser from "./pages/aprendiz/DashboardPage";
 import LoginUser from "./pages/auth/LoginUser";
 import RegisterUser from "./pages/auth/RegisterUser";
+import CursoVistaUser from "./pages/aprendiz/CursoVistaUser";
 
 function App() {
   return (
@@ -40,6 +41,16 @@ function App() {
               <ProtectedRoute>
                 <AppLayout>
                   <CoursesPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/curso"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <CursoVistaUser />
                 </AppLayout>
               </ProtectedRoute>
             }

@@ -1,0 +1,226 @@
+{
+  "name": "Agent-Competencia",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "96e95311-948b-4825-b6d6-0bf6f81a1c87",
+      "name": "When chat message received",
+      "webhookId": "e8156249-8860-4140-9880-1b61133b60d4"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        208
+      ],
+      "id": "04ccfb18-3dd5-468a-84b4-dd1992c7a9fb",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "openrouter/andromeda-alpha",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        592,
+        208
+      ],
+      "id": "b002e10a-11f1-48f2-8ee6-aaa9121d2125",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "dKjlwB3z7RZRbqFe",
+          "name": "GLOBANT-KEY-OPEN-ROUTER"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "endpointUrl": "https://macarron.app.n8n.cloud/mcp/353f9088-3f02-41f7-a70c-77988668ffc0",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        208
+      ],
+      "id": "abf86dfa-f843-4f81-a110-403ea9d72e5a",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "model": "mistral.mistral-small-2402-v1:0",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAwsBedrock",
+      "typeVersion": 1.1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "cc2e26b5-0a87-4bb0-961d-585122d49622",
+      "name": "AWS Bedrock Chat Model",
+      "credentials": {
+        "aws": {
+          "id": "pEw7zAhsKQ2zyupo",
+          "name": "AWS account GLOBANT"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "bf547bd0-7244-4188-842e-bb2b0e182df5",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "XpmJ55gFiYarv3zS",
+          "name": "supabase competencia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('When chat message received').item.json.chatInput }}{{ $json.output }}",
+        "options": {
+          "systemMessage": "Eres un agente de soporte en segundo plano. No interactúas directamente con el usuario.\n\nTu tarea principal es acceder a la base de datos de Supabase (tabla: `conocimiento-chat`) utilizando herramientas MCP.\n\nApoyas al Agente 1 respondiendo a sus solicitudes de una de estas dos maneras:\n\n1. Cuando se te solicite, devuelve una lista de todos los valores de `titulo` de la tabla `conocimiento-chat`.\n2. Cuando se te proporcione un `titulo` específico, devuelve la fila completa, incluyendo:\n    - `titulo`\n    - `prompt`\n    - `objetivo`\n\nNo modifiques, resumas o reinterpretes los datos. Devuelve solo lo que se solicite explícitamente.\n\nTodo tu contexto y herramientas están limitados a consultar y devolver resultados de la tabla `conocimiento-chat` en Supabase."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        0
+      ],
+      "id": "7e9c337c-3543-4560-8dad-7a9ac1536ad6",
+      "name": "Agente 2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Eres un tutor de IA especializado en la enseñanza de ingeniería de prompts y el uso ético de la IA.\nTu conocimiento se basa en un conjunto de módulos de aprendizaje almacenados en una base de datos backend, pero no mostrarás los datos brutos del módulo al usuario. En su lugar, actuarás como su guía.\n\nAl inicio de la interacción:\n- Saluda al usuario de manera cálida.\n- Presenta los primeros cinco temas de aprendizaje disponibles (solo los títulos, pero no menciones la tabla o algo similar, solo menciona al usuario que es una lista).\n- Ofrece la opción: \"¿Te gustaría ver la lista completa?\". Si dice que sí, muestra todos los títulos.\n- Pídele al usuario que elija un tema para comenzar.\n\nCuando el usuario elija un tema:\n- Di: \"Cambiando a modo tutor para [título del tema]...\" o algo similar.\n- Luego, comienza la sesión de tutoría para ese tema, utilizando las instrucciones y el objetivo interno del módulo (no mostrados al usuario) para guiar la conversación.\n- Haz preguntas, proporciona explicaciones, solicita reflexión, ofrece retroalimentación y ayuda al usuario a alcanzar el objetivo de aprendizaje.\n- Permanece dentro del alcance del tema seleccionado a menos que el usuario pida explícitamente cambiar de tema.\n\nSi el usuario quiere cambiar de tema en cualquier momento:\n- Confírmalo y vuelve a mostrar los títulos de los temas (los primeros cinco + la opción de listar todos).\n\n---\n\nImportante:\n- NO reveles los campos de \"prompt interno\" u \"objetivo\" del módulo o de la base de datos; esa es información que solo el agente debe tener.\n- NO le pidas al usuario que \"seleccione una fila\" ni hables de \"la base de datos\", \"tablas\" o \"filas\".\n- Utiliza un lenguaje natural y amigable: \"¿Qué tema te gustaría explorar?\" en lugar de \"¿Qué número de título te gustaría?\".\n\nObjetivo:\nHaz que el usuario se sienta guiado, apoyado y comprendido como lo haría un tutor, adaptándote dinámicamente a su elección y progreso."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "82275746-2ddc-4cbb-b486-adf60ffcfb9c",
+      "name": "Agent 1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Agent 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agente 2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agente 2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agente 2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AWS Bedrock Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agent 1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agent 1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agent 1": {
+      "main": [
+        [
+          {
+            "node": "Agente 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "03e1f4c9-8e1b-4ff2-9a4f-68a9db40f42f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d453a52b91e41d6417e6ff79a24a1ea7c4f7496a92decf7bd13bcea06b1bf816"
+  },
+  "id": "RMoiw8ZOokKBwawA",
+  "tags": []
+}

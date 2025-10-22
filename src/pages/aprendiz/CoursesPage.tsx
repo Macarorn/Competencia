@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const imgIcon =
   "http://localhost:3845/assets/288c2838187c7c0850a537cf42f73391a7ef5efd.svg";
 const imgClock =
@@ -23,7 +25,7 @@ const courses: Course[] = [
     level: "Principiante",
     title: "Fundamentos de IA Responsable",
     description:
-      "Aprende los principios básicos para usar IA de manera ética y responsable",
+      "Aprende los principios básicos para usar IA de manera ética.",
     lessons: "8 lecciones",
     duration: "2 horas",
     progress: 42,
@@ -114,13 +116,14 @@ export const CoursesPage = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <button className="flex items-center gap-2 bg-[#155dfc] text-white text-sm rounded-md px-3 py-2">
+                  <Link
+                    to="/curso"
+                    className="flex items-center gap-2 bg-[#155dfc] text-white text-sm rounded-md px-3 py-2"
+                  >
                     <img src={imgPlay} alt="play" className="w-4 h-4" />
                     <span>Continuar Curso</span>
-                  </button>
-                  <button className="text-sm text-slate-600 underline">
-                    Ver detalles
-                  </button>
+                  </Link>
+                 
                 </div>
               </div>
             </article>

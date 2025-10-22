@@ -1,0 +1,65 @@
+{
+  "name": "MCP - Competencia",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "353f9088-3f02-41f7-a70c-77988668ffc0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a6ab1f7d-1a90-4ecc-8487-ee44e9d9209d",
+      "name": "MCP Server Trigger",
+      "webhookId": "353f9088-3f02-41f7-a70c-77988668ffc0"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "conocimiento-chat",
+        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}"
+      },
+      "type": "n8n-nodes-base.supabaseTool",
+      "typeVersion": 1,
+      "position": [
+        144,
+        208
+      ],
+      "id": "e35bc405-2ba2-4240-9048-6edc1fca69c4",
+      "name": "Get many rows in Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "txaPjbQPNLmvYxyK",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Get many rows in Supabase": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "26b31834-37ad-4e1a-a751-84df993b3eea",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d453a52b91e41d6417e6ff79a24a1ea7c4f7496a92decf7bd13bcea06b1bf816"
+  },
+  "id": "2uB47ErO9KQe3deJ",
+  "tags": []
+}
