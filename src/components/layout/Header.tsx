@@ -1,7 +1,7 @@
 // components/layout/Header.tsx
 import { Link } from "react-router-dom";
-import UserDropdown from "../header/UserDropdown";
 import { useAuth } from "../../context/AuthContext";
+import UserDropdown from "../header/UserDropdown";
 
 export default function Header() {
   const { user, logout } = useAuth();
