@@ -48,3 +48,11 @@ El proyecto ha sido desplegado exitosamente en vercel y está disponible para su
 - Se implementó y refinó la vista de dashboard (`DashboardPage.tsx`).
 - Se verificó la integración con Supabase y n8n para garantizar la funcionalidad completa del sistema.
 
+## Información de Pruebas
+
+Para probar el sistema, puede utilizar las siguientes credenciales de acceso:
+
+- **Correo electrónico**: marianacifuenteszu001@gmail.com
+- **Contraseña**: 123456
+
+Estas credenciales están configuradas para el entorno de pruebas y permiten explorar las funcionalidades del sistema.
