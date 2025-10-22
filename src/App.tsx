@@ -1,55 +1,74 @@
-import { useEffect, useState } from "react";
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
-import DashboardUser from "./pages/DashboardUser";
+// App.tsx
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/route/ProtectedRoute";
+import AppLayout from "./layout/AppLayout";
+
+// Pages
 import LandingPageUser from "./pages/LandingPageUser";
-import LoginUser from "./pages/LoginUser";
-import RegisterUser from "./pages/RegisterUser";
-import ChatIaUser from "./pages/ChatIaUser";
+import LoginUser from "./pages/auth/LoginUser";
+import RegisterUser from "./pages/auth/RegisterUser";
+import DashboardUser from "./pages/aprendiz/DashboardPage";
+import NotFound from "./pages/NotFound";
+import { CoursesPage } from "./pages/aprendiz/CoursesPage";
+import { ChatPage } from "./pages/aprendiz/ChatPage";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem("isAuthenticated") === "true";
-  });
-
-  useEffect(() => {
-    localStorage.setItem("isAuthenticated", String(isAuthenticated));
-  }, [isAuthenticated]);
-
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<LandingPageUser />} />
-        <Route
-          path="/login"
-          element={<LoginUser setIsAuthenticated={setIsAuthenticated} />}
-        />
-        <Route path="/register" element={<RegisterUser />} />
-        <Route
-          path="/dashboard"
-          element={
-            isAuthenticated ? (
-              <DashboardUser />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-        <Route
-          path="/chat"
-          element={
-            isAuthenticated ? (
-              <ChatIaUser />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          {/* Rutas Públicas */}
+          <Route path="/" element={<LandingPageUser />} />
+          <Route path="/login" element={<LoginUser />} />
+          <Route path="/register" element={<RegisterUser />} />
+
+          {/* Rutas Protegidas con Layout */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <DashboardUser />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cursos"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <CoursesPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <ChatPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/progreso"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <ChatPage />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
