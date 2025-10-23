@@ -46,7 +46,7 @@ function App() {
             }
           />
           <Route
-            path="/curso"
+            path="/lecciones"
             element={
               <ProtectedRoute>
                 <AppLayout>

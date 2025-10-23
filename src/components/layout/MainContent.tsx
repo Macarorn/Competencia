@@ -8,7 +8,7 @@ interface MainContentProps {
 export default function MainContent({ children }: MainContentProps) {
   return (
     <main className="bg-white min-h-[calc(100vh-72px)] transition-all duration-500">
-      <div className="container mx-auto px-6 py-8 animate-fadeInUp">
+      <div className="container mx-auto px-6 py-4 animate-fadeInUp">
         {children}
       </div>
 

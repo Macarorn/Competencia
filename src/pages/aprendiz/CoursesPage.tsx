@@ -1,13 +1,6 @@
 import { Link } from "react-router-dom";
-
-const imgIcon =
-  "http://localhost:3845/assets/288c2838187c7c0850a537cf42f73391a7ef5efd.svg";
-const imgClock =
-  "http://localhost:3845/assets/20716c2569599f94141adb6ccd6d8aa2fdc8877c.svg";
-const imgVideo =
-  "http://localhost:3845/assets/cbb2b913b86bf5e12695d15d96b5157a37407664.svg";
-const imgPlay =
-  "http://localhost:3845/assets/83f78e8c15455b7ac865da3243357d2abf0955c3.svg";
+import { BookOpen, Clock, Video, Play, Lightbulb, Code2, Shield } from "lucide-react";
+import ChatIaUser from "../ChatIaUser";
 
 type Course = {
   id: string;
@@ -17,6 +10,7 @@ type Course = {
   lessons: string;
   duration: string;
   progress: number;
+  icon: string;
 };
 
 const courses: Course[] = [
@@ -29,6 +23,7 @@ const courses: Course[] = [
     lessons: "8 lecciones",
     duration: "2 horas",
     progress: 42,
+    icon: "lightbulb",
   },
   {
     id: "c-2",
@@ -39,6 +34,7 @@ const courses: Course[] = [
     lessons: "10 lecciones",
     duration: "3 horas",
     progress: 0,
+    icon: "code",
   },
   {
     id: "c-3",
@@ -48,12 +44,24 @@ const courses: Course[] = [
     lessons: "12 lecciones",
     duration: "4 horas",
     progress: 76,
+    icon: "shield",
   },
 ];
 
-import ChatIaUser from "../ChatIaUser";
-
 export const CoursesPage = () => {
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "lightbulb":
+        return <Lightbulb className="w-5 h-5 text-blue-600" />;
+      case "code":
+        return <Code2 className="w-5 h-5 text-blue-600" />;
+      case "shield":
+        return <Shield className="w-5 h-5 text-blue-600" />;
+      default:
+        return <BookOpen className="w-5 h-5 text-blue-600" />;
+    }
+  };
+
   return (
     <div className="bg-white min-h-screen p-8">
       <div className="max-w-[1100px] mx-auto">
@@ -66,72 +74,82 @@ export const CoursesPage = () => {
             responsable
           </p>
         </header>
-
+        
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((c) => (
             <article
               key={c.id}
-              className="border border-[rgba(0,0,0,0.08)] rounded-xl bg-white shadow-sm overflow-hidden"
+              className="border border-gray-200 rounded-2xl bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group"
             >
-              <div className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-[rgba(43,127,255,0.08)] rounded-lg p-2 w-15 h-12 flex items-center justify-center">
-                      <img src={imgIcon} alt="icon" className="w-4 h-4" />
+              {/* Header del curso */}
+              <div className="p-5 pb-4">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-center gap-3 flex-1">
+                    <div className="bg-blue-50 rounded-xl p-2.5 flex items-center justify-center flex-shrink-0">
+                      {getIcon(c.icon)}
                     </div>
-                    <div>
-                      <p className="text-sm text-slate-900 font-medium">
-                        {c.title}
-                      </p>
-                      <p className="text-xs text-slate-500">{c.description}</p>
-                    </div>
-                  </div>
-                  <div className="shrink-0">
-                    <span className="inline-block bg-green-100 text-[#00a63e] text-[11px] px-2 py-1 rounded">
+                    <span className="inline-block bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-lg">
                       {c.level}
                     </span>
                   </div>
                 </div>
+                
+                <div className="space-y-2">
+                  <h3 className="text-base font-semibold text-slate-900 leading-snug">
+                    {c.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    {c.description}
+                  </p>
+                </div>
               </div>
 
-              <div className="px-4 pb-4">
-                <div className="flex items-center justify-between text-xs text-slate-600 mb-3">
+              {/* Info y progreso */}
+              <div className="px-5 pb-5">
+                {/* Metadata del curso */}
+                <div className="flex items-center justify-between text-xs text-slate-600 mb-4 pb-4 border-b border-gray-100">
                   <div className="flex items-center gap-2">
-                    <img src={imgClock} alt="lessons" className="w-4 h-4" />
-                    <span>{c.lessons}</span>
+                    <div className="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                      <Video className="w-4 h-4 text-purple-600" />
+                    </div>
+                    <span className="font-medium">{c.lessons}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <img src={imgVideo} alt="duration" className="w-4 h-4" />
-                    <span>{c.duration}</span>
+                    <div className="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
+                      <Clock className="w-4 h-4 text-orange-600" />
+                    </div>
+                    <span className="font-medium">{c.duration}</span>
                   </div>
                 </div>
 
-                <div className="mb-3">
-                  <div className="w-full bg-amber-50 rounded-full h-2.5 overflow-hidden">
+                {/* Barra de progreso */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-slate-700">Progreso</span>
+                    <span className="text-xs font-semibold text-orange-600">{c.progress}%</span>
+                  </div>
+                  <div className="w-full bg-orange-50 rounded-full h-2 overflow-hidden">
                     <div
-                      className="bg-orange-600 h-2.5 rounded-full"
+                      className="bg-orange-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${c.progress}%` }}
                     />
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <Link
-                    to="/curso"
-                    className="flex items-center gap-2 bg-[#155dfc] text-white text-sm rounded-md px-3 py-2"
-                  >
-                    <img src={imgPlay} alt="play" className="w-4 h-4" />
-                    <span>Continuar Curso</span>
-                  </Link>
-                 
-                </div>
+                {/* Botón de acción */}
+                <Link
+                  to="/curso"
+                  className="flex items-center justify-center gap-2 bg-blue-600 text-white text-sm font-medium rounded-xl px-4 py-2.5 w-full hover:bg-blue-700 transition-colors duration-200 group-hover:shadow-lg group-hover:shadow-blue-600/30"
+                >
+                  <Play className="w-4 h-4" />
+                  <span>Continuar Curso</span>
+                </Link>
               </div>
             </article>
           ))}
         </section>
       </div>
-      {/* Chat flotante en esquina inferior derecha */}
-
+      
       <ChatIaUser />
     </div>
   );
