@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { FiArrowDownLeft } from "react-icons/fi";
 
-const CursoVistaUser = () => {
+const LeccionVistaUser = () => {
   const progressPercentage = (2 / 8) * 100; // 25%
 
   return (
@@ -118,4 +118,4 @@ const CursoVistaUser = () => {
   );
 };
 
-export default CursoVistaUser;
+export default LeccionVistaUser;

@@ -138,7 +138,7 @@ export const CoursesPage = () => {
 
                 {/* Botón de acción */}
                 <Link
-                  to="/curso"
+                  to="/lecciones"
                   className="flex items-center justify-center gap-2 bg-blue-600 text-white text-sm font-medium rounded-xl px-4 py-2.5 w-full hover:bg-blue-700 transition-colors duration-200 group-hover:shadow-lg group-hover:shadow-blue-600/30"
                 >
                   <Play className="w-4 h-4" />
