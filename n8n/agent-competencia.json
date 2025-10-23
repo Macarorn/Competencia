@@ -70,7 +70,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatAwsBedrock",
       "typeVersion": 1.1,
       "position": [
-        80,
+        32,
         208
       ],
       "id": "cc2e26b5-0a87-4bb0-961d-585122d49622",
@@ -216,7 +216,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "03e1f4c9-8e1b-4ff2-9a4f-68a9db40f42f",
+  "versionId": "63e77155-dd2b-4e40-a490-54c6106c27a3",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "d453a52b91e41d6417e6ff79a24a1ea7c4f7496a92decf7bd13bcea06b1bf816"
