@@ -12,7 +12,7 @@ import { CoursesPage } from "./pages/aprendiz/CoursesPage";
 import DashboardUser from "./pages/aprendiz/DashboardPage";
 import LoginUser from "./pages/auth/LoginUser";
 import RegisterUser from "./pages/auth/RegisterUser";
-import CursoVistaUser from "./pages/aprendiz/CursoVistaUser";
+import LeccionVistaUser from "./pages/aprendiz/LeccionVistaUser";
 
 function App() {
   return (
@@ -46,11 +46,11 @@ function App() {
             }
           />
           <Route
-            path="/curso"
+            path="/lecciones"
             element={
               <ProtectedRoute>
                 <AppLayout>
-                  <CursoVistaUser />
+                  <LeccionVistaUser />
                 </AppLayout>
               </ProtectedRoute>
             }
