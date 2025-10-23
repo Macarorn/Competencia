@@ -130,7 +130,7 @@ export const CoursesPage = () => {
           ))}
         </section>
       </div>
-      {/* Chat flotante en esquina inferior derecha */}
+      {/* Chat flotante en esquina inferior dercha */}
 
       <ChatIaUser />
     </div>
